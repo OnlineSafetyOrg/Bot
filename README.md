@@ -1,41 +1,35 @@
-# 💌 Letter Box — Anonymous Letter System
+# 🛡️ Online Safety Bot — Public Moderation & Protection Suite
 
-[![Join Our Discord](https://img.shields.io/discord/1360001636424093928?label=Join%20Our%20Community&logo=discord&style=flat-square&color=5865F2)](https://discord.com/invite/P3bfEux5cv)
+[![Join Our Discord](https://img.shields.io/discord/1360001636424093928?label=Join%20Our%20Community\&logo=discord\&style=flat-square\&color=5865F2)](https://discord.com/invite/P3bfEux5cv)
+[![Ko-fi](https://img.shields.io/badge/Support%20Us%20on-Ko--fi-FF5E5B?logo=ko-fi&style=flat-square)](https://ko-fi.com/duckodas)
 
-**Letter Box** is an anonymous letter and reply system built for Discord, created by the **Online Safety** team. It empowers users to submit letters anonymously and receive supportive responses — all while keeping identities strictly confidential.
+**Online Safety Bot** is the official main bot for the **Online Safety** Discord server. It helps protect users, educate about cybersecurity, and provide user-friendly safety tools. This bot is free, open-source, and designed for both private and community servers.
 
 ---
 
 ## ✨ Features
 
-- 📩 **Anonymous Letter Submission**  
-  Users submit letters privately via modals.
+* 💬 **Anonymous Tips & Cybersecurity Advice**
+  Users can receive random safety tips.
 
-- 💬 **Admin-Only Replies**  
-  Admins can send one anonymous reply per letter, delivered via DM.
+* 🕵️ **Username Checker**
+  Detect suspicious or scam-like usernames instantly.
 
-- 🔒 **Privacy by Design**  
-  No user identities are stored or displayed.
+* 🤖 **AI Mod Assistant (In Development)**
+  AI-based message analysis to detect scams, grooming, hate speech, and more.
 
-- 📡 **Channel Embeds**  
-  Letters and replies are published in a configured channel with dynamically updated embeds.
-
-- 🧠 **AI Reply Support (Coming Soon)**  
-  Optional integration with OpenAI to generate helpful replies automatically.
-
-- 📊 **Insights**  
-  Track totals, daily submissions, replies, and flags in real time with insight channels.
+* **More Coming!**
 
 ---
 
-## ⚙️ Getting Started
+## 🚀 Getting Started
 
-### 1. Clone the Repository
+### 1. Clone the Project
 
 ```bash
-git clone https://github.com/OnlineSafetyOrg/letter-box.git
-cd letter-box
-````
+git clone https://github.com/OnlineSafetyOrg/bot.git
+cd bot
+```
 
 ### 2. Install Dependencies
 
@@ -43,81 +37,70 @@ cd letter-box
 npm install
 ```
 
-### 3. Environment Configuration
+### 3. Configure Environment Variables
 
-Create a `.env` file and configure it with your bot and database credentials:
+Create a `.env` file:
 
 ```env
-# Discord Bot Credentials
-CLIENT_TOKEN=""
-CLIENT_ID=""
-CLIENT_SECRET=""
-
-# Letter System Configuration
-LETTER_GUILD_ID=""
-LETTER_CHANNEL_ID=""
-
-# Insights Channel IDs (Optional)
-TOTAL_LETTERS_CHANNEL_ID=""
-TODAY_LETTERS_CHANNEL_ID=""
-REPLIED_LETTERS_CHANNEL_ID=""
-PENDING_LETTERS_CHANNEL_ID=""
-FLAGGED_LETTERS_CHANNEL_ID=""
-
-# Database
-DATABASE_URL=""
-```
-
-### 4. Set Up the Database (Prisma)
-
-```bash
-npx prisma migrate dev --name init
+DISCORD_TOKEN="your_bot_token"
+OPENAI_API_KEY="(optional - for AI)"
+KOFI_API_KEY="(optional - for Ko-fi integration)"
 ```
 
 ---
 
-## ✅ Required Bot Permissions
+## 🔒 Required Permissions
 
-Make sure your bot has the following permissions in your server:
+Make sure your bot has the following permissions:
 
 * `Read Messages`
 * `Send Messages`
-* `Manage Messages` (for editing embeds)
-* `Send DMs` (for private replies)
+* `Embed Links`
+* `Manage Messages`
+* `Send DMs`
+* *(More coming soon)*
 
 ---
 
-## 🧩 Tech Stack
+## 📦 Tech Stack
 
 * **Language:** TypeScript
-* **Framework:** Discord.js v14
-* **Database ORM:** Prisma
-* **Database:** MongoDB
-* **AI Integration:** OpenAI (coming soon)
+* **Discord Framework:** discord.js v14
+* **Database:** Prisma + MongoDB
+* **AI Integration (planned):** OpenAI
+* **Donations:** Ko-fi Webhooks
+
+---
+
+## 📅 Upcoming Features
+
+* 📊 Insights dashboard and metrics
+* 🧠 Advanced AI content moderation
+* 🧩 Modular add-ons (e.g. scam bot detection, alt detection)
+* 📨 Auto DM protection & profile safety filters
 
 ---
 
 ## 🤝 Contributing
 
 We welcome contributions!
-Feel free to open [issues](https://github.com/OnlineSafetyOrg/letter-box/issues) or submit pull requests if you have suggestions or want to improve the project.
+Open [issues](https://github.com/OnlineSafetyOrg/bot/issues) or submit pull requests with suggestions, fixes, or new features.
 
 ---
 
 ## 🛟 Need Help?
 
-Join our support and development community on Discord:
-
-👉 [**Join the Server**](https://discord.com/invite/P3bfEux5cv)
+Join our support and development server on Discord:
+👉 [**Join Online Safety**](https://discord.com/invite/P3bfEux5cv)
 
 ---
 
 ## 👥 About Online Safety
 
-**Online Safety** builds tools that protect Discord users by encouraging safe, private, and mentally supportive communication.
+**Online Safety** builds bots and tools that protect Discord users by promoting anonymous, secure, and supportive communication.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **[GNU GPL v3.0](LICENSE)**.
+This project is licensed under the **[GNU GPL v3.0](LICENSE)** — you're free to use, modify, and share it as long as the source remains open.

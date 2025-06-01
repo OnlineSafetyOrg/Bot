@@ -12,6 +12,7 @@ export interface ConfigInterface {
         id: string;
         secret: string;
     };
+    developers: [string];
     guilds: ObjectNameIDArray;
     webhooks: webhookArray;
 }
@@ -22,6 +23,9 @@ export const config: ConfigInterface = {
         id: process.env.CLIENT_ID as string,
         secret: process.env.CLIENT_SECRET as string,
     },
+    developers: [
+        '711712752246325343' // DuckoDas
+    ],
     guilds: [
         {
             name: 'Online Safety',

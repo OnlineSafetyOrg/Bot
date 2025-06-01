@@ -65,6 +65,13 @@ export class CoffeeClient extends Client {
     }
 
     public startClient() {
+        process.on('unhandledRejection', (reason, promise) => {
+            console.error('[UNHANDLED REJECTION]', reason);
+        });
+        process.on('uncaughtException', (err) => {
+            console.error('[UNCAUGHT EXCEPTION]', err);
+        });
+
         this.login(this.config.client.token).catch((e) => {
             logger.error({ message: e });
         });

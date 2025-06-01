@@ -8,6 +8,22 @@ datasource db {
 }
 
 model Guild {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  guildId String
+  id           String              @id @default(auto()) @map("_id") @db.ObjectId
+  guildId      String              @unique
+  language     String
+  verification VerificationConfig?
+}
+
+model VerificationConfig {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId         String   @unique
+  kickOnFail      Boolean  @default(true)
+  logsChannelId   String
+  channelId       String
+  verifiedRoleIds String[]
+  messageId       String?
+  correctEmoji    String
+  emojis          String[]
+  emojiCategory   String
+  guild           Guild    @relation(fields: [guildId], references: [guildId])
 }

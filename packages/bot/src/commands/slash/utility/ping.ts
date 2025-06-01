@@ -5,6 +5,7 @@ import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder }
 const command: CommandInterface = {
     cooldown: 5,
     isDeveloperOnly: false,
+    category: "Utility",
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Alive the bot!')

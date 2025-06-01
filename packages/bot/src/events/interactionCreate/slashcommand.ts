@@ -7,10 +7,10 @@ const cooldowns: Map<string, Map<string, number>> = new Map();
 const event: EventInterface = {
     name: Events.InteractionCreate,
     options: { once: false, rest: false },
-    execute: async (interaction: ChatInputCommandInteraction, client: CoffeeClient) => {
+    execute: async function (this: CoffeeClient, interaction: ChatInputCommandInteraction) {
         if (!interaction.isChatInputCommand()) return;
 
-        const command: CommandInterface | undefined = client.commands.get(interaction.commandName);
+        const command: CommandInterface | undefined = this.commands.get(interaction.commandName);
         if (!command) {
             logger.info({
                 labels: { event: 'InteractionCreate' },
@@ -53,7 +53,7 @@ const event: EventInterface = {
         setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
         try {
-            await command.execute(interaction, client);
+            await command.execute(interaction, this);
         } catch (e) {
             logger.error({ labels: { event: 'InteractionCreate' }, message: e });
             return interaction.reply({

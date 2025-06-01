@@ -11,6 +11,7 @@ export interface EventInterface {
 export interface CommandInterface {
     cooldown: number;
     isDeveloperOnly: boolean;
+    category: string;
     data: SlashCommandBuilder | any;
     execute: (...args: any[]) => any;
 }

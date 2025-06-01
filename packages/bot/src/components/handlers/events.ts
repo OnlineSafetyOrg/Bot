@@ -18,9 +18,9 @@ export async function loadEvents(client: CoffeeClient) {
                         ).default;
 
                         if (event.options?.once) {
-                            client.once(event.name, (...args) => event.execute(...args, client));
+                            client.once(event.name, event.execute.bind(client));
                         } else {
-                            client.on(event.name, (...args) => event.execute(...args, client));
+                            client.on(event.name, event.execute.bind(client));
                         }
 
                         client.events.set(event.name, event);

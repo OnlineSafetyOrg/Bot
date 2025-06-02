@@ -7,6 +7,8 @@ import {
     ComponentType,
     userMention,
     PermissionFlagsBits,
+    ButtonBuilder,
+    ButtonStyle,
 } from 'discord.js';
 import { CoffeeClient } from '../../../index.js';
 import { CommandInterface } from '../../../types.js';
@@ -72,6 +74,7 @@ const command: CommandInterface = {
                     '',
                     '[`🌐` Join our Support Server](https://discord.gg/P3bfEux5cv) — Need help or want to suggest features?',
                     '[`📖` Documentation](https://discord.gg/P3bfEux5cv) — Learn how to use the bot effectively.',
+                    '[`☕` Support us on Ko-fi](https://ko-fi.com/duckodas) — Help keep this project alive!',
                     '',
                     '`💡` **Tip:** Use the selection menu below to browse commands and learn what each does.',
                     '`⚙️` **Bot version:** 1.0.0',
@@ -82,34 +85,52 @@ const command: CommandInterface = {
             )
             .setColor('Blurple');
 
-        // Dropdown with categories
-        const selectMenu = new StringSelectMenuBuilder()
-            .setCustomId('help-menu')
-            .setPlaceholder('Choose a command category...')
-            .addOptions([
-                {
-                    label: '🏠 Back to Home',
-                    value: 'home',
-                    description: 'Return to the help homepage',
-                },
-                ...Object.keys(grouped).map((cat) => {
-                    const meta = categoryMeta[cat] ?? {
-                        label: cat,
-                        description: 'Commands in this category',
-                    };
-                    return {
-                        label: meta.label,
-                        value: cat,
-                        description: meta.description,
-                    };
-                }),
-            ]);
+        // Buttons with links
+        const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
+            new ButtonBuilder()
+                .setLabel('🌐 Support Server')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://discord.gg/P3bfEux5cv'),
 
-        const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
+            new ButtonBuilder()
+                .setLabel('📖 Docs')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://discord.gg/P3bfEux5cv'),
+
+            new ButtonBuilder()
+                .setLabel('☕ Donate')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://ko-fi.com/duckodas'),
+        );
+
+        // Dropdown with categories
+        const selectMenu = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder()
+                .setCustomId('help-menu')
+                .setPlaceholder('Choose a command category...')
+                .addOptions([
+                    {
+                        label: '🏠 Back to Home',
+                        value: 'home',
+                        description: 'Return to the help homepage',
+                    },
+                    ...Object.keys(grouped).map((cat) => {
+                        const meta = categoryMeta[cat] ?? {
+                            label: cat,
+                            description: 'Commands in this category',
+                        };
+                        return {
+                            label: meta.label,
+                            value: cat,
+                            description: meta.description,
+                        };
+                    }),
+                ]),
+        );
 
         const msg = await interaction.editReply({
             embeds: [homeEmbed],
-            components: [row],
+            components: [buttons, selectMenu],
         });
 
         const collector = msg.createMessageComponentCollector({
@@ -124,7 +145,7 @@ const command: CommandInterface = {
             const selected = select.values[0];
 
             if (selected === 'home') {
-                await select.update({ embeds: [homeEmbed], components: [row] });
+                await select.update({ embeds: [homeEmbed], components: [buttons, selectMenu] });
                 return;
             }
 
@@ -135,7 +156,7 @@ const command: CommandInterface = {
                 .setDescription(grouped[selected].join('\n'))
                 .setColor('Blurple');
 
-            await select.update({ embeds: [embed], components: [row] });
+            await select.update({ embeds: [embed], components: [buttons, selectMenu] });
         });
 
         collector.on('end', async () => {

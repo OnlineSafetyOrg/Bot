@@ -1,6 +1,6 @@
 import { Client, Collection, GatewayIntentBits, Partials, Options } from 'discord.js';
 import { ConfigInterface, config } from './config/config.js';
-import { loadEvents, loadCommands } from './components/exports.js';
+import { loadEvents, loadCommands, loadCrashHandler } from './components/exports.js';
 import { EventInterface, CommandInterface } from './types.js';
 import logger from './logger.js';
 
@@ -56,6 +56,7 @@ export class CoffeeClient extends Client {
         loadEvents(this)
             .then(() => {
                 loadCommands(this);
+                loadCrashHandler()
                 startKoFiWebhookServer(this);
             })
             .catch((e) => {
@@ -65,13 +66,6 @@ export class CoffeeClient extends Client {
     }
 
     public startClient() {
-        process.on('unhandledRejection', (reason, promise) => {
-            console.error('[UNHANDLED REJECTION]', reason);
-        });
-        process.on('uncaughtException', (err) => {
-            console.error('[UNCAUGHT EXCEPTION]', err);
-        });
-
         this.login(this.config.client.token).catch((e) => {
             logger.error({ message: e });
         });

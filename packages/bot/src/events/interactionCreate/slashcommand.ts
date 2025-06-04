@@ -54,16 +54,28 @@ const event: EventInterface = {
 
         try {
             await command.execute(interaction, this);
-        } catch (e) {
+        } catch (e: any) {
             logger.error({ labels: { event: 'InteractionCreate' }, message: e });
-            return interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setColor('Red')
-                        .setDescription(`Failed to execute \`${command.data.name}\``),
-                ],
-                flags: ['Ephemeral'],
-            });
+
+            if (e.code === 'InteractionAlreadyReplied') {
+                logger.warn('Attempted to reply to an interaction that was already replied/deferred.');
+                return;
+            }
+
+            if (!interaction.replied && !interaction.deferred) {
+                try {
+                    await interaction.reply({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setColor('Red')
+                                .setDescription(`Failed to execute \`${command.data.name}\``),
+                        ],
+                        flags: ['Ephemeral'],
+                    });
+                } catch (replyError) {
+                    logger.error({ labels: { event: 'InteractionCreate' }, message: replyError });
+                }
+            }
         }
     },
 };

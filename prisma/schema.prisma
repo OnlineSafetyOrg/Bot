@@ -3,27 +3,27 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Guild {
-  id           String              @id @default(auto()) @map("_id") @db.ObjectId
+  id           String              @id @default(uuid())
   guildId      String              @unique
   language     String
   verification VerificationConfig?
 }
 
 model VerificationConfig {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  guildId         String   @unique
-  kickOnFail      Boolean  @default(true)
+  id              String  @id @default(uuid())
+  guildId         String  @unique
+  kickOnFail      Boolean @default(true)
   logsChannelId   String
   channelId       String
-  verifiedRoleIds String[]
+  verifiedRoleIds Json
   messageId       String?
   correctEmoji    String
-  emojis          String[]
+  emojis          Json
   emojiCategory   String
-  guild           Guild    @relation(fields: [guildId], references: [guildId])
+  guild           Guild   @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
 }

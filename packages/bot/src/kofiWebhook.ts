@@ -30,7 +30,7 @@ export function startKoFiWebhookServer(client: CoffeeClient) {
 
             const discordId = extractDiscordId(data.message || '');
             if (!discordId) {
-                logger.info('Discord ID not found in payment message');
+                logger.info('Discord ID was not found in payment message');
                 return res.sendStatus(200);
             }
 

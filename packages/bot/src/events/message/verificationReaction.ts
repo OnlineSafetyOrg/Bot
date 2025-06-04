@@ -9,6 +9,11 @@ const TIMEOUT_MS = 12 * 60 * 60 * 1000; // 12 hours
 const attemptMap = new Map<string, number>(); // key: `${guildId}-${userId}`
 const timeoutMap = new Map<string, NodeJS.Timeout>();
 
+// Helper to safely parse JSON string arrays
+function safeStringArray(json: any): string[] {
+    return Array.isArray(json) ? json.filter((x): x is string => typeof x === 'string') : [];
+}
+
 const event: EventInterface = {
     name: Events.MessageReactionAdd,
     options: { once: false, rest: false },
@@ -27,8 +32,11 @@ const event: EventInterface = {
         });
         if (!config || message.id !== config.messageId) return;
 
+        const emojis = safeStringArray(config.emojis);
+        const verifiedRoles = safeStringArray(config.verifiedRoleIds);
         const emojiName = reaction.emoji.name;
-        if (!emojiName || !config.emojis.includes(emojiName)) return;
+
+        if (!emojiName || !emojis.includes(emojiName)) return;
 
         const member = await guild.members.fetch(user.id).catch(() => null);
         if (!member) return;
@@ -55,7 +63,7 @@ const event: EventInterface = {
         }
 
         if (emojiName === config.correctEmoji) {
-            for (const roleId of config.verifiedRoleIds) {
+            for (const roleId of verifiedRoles) {
                 await member.roles.add(roleId).catch(() => {});
             }
             await member.send(
@@ -64,7 +72,6 @@ const event: EventInterface = {
                 ),
             );
 
-            // Clean up
             clearTimeout(timeoutMap.get(key));
             attemptMap.delete(key);
             timeoutMap.delete(key);

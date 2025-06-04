@@ -154,7 +154,7 @@ const command: CommandInterface = {
                             kickOnFail: true,
                             logsChannelId: '',
                             channelId: '',
-                            verifiedRoleIds: [''],
+                            verifiedRoleIds: [],
                             correctEmoji: '',
                             emojis: [],
                             emojiCategory: style,
@@ -198,12 +198,17 @@ const command: CommandInterface = {
                 const role = options.getRole('role') as Role | null;
                 const action = options.getString('action') as 'add' | 'remove' | null;
 
+                const roleIds = Array.isArray(config.verifiedRoleIds)
+                    ? (config.verifiedRoleIds as string[])
+                    : [];
+
                 if (!role || !action) {
-                    const currentRoles = config.verifiedRoleIds.map((id) => `<@&${id}>`).join(', ') ?? 'None';
+                    const currentRoles =
+                        roleIds.length > 0 ? roleIds.map((id) => `<@&${id}>`).join(', ') : 'None';
                     return interaction.editReply({ content: `Current verification roles: ${currentRoles}` });
                 }
 
-                const updatedRoles = new Set(config.verifiedRoleIds);
+                const updatedRoles = new Set(roleIds);
                 if (action === 'add') updatedRoles.add(role.id);
                 if (action === 'remove') updatedRoles.delete(role.id);
 
@@ -216,6 +221,7 @@ const command: CommandInterface = {
                     content: `\`✅\` Role <@&${role.id}> ${action === 'add' ? 'added to' : 'removed from'} verification roles.`,
                 });
             }
+
             case 'kick-on-fail': {
                 if (!config) {
                     return interaction.editReply({

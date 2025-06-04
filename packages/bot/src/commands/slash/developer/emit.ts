@@ -37,7 +37,7 @@ const command: CommandInterface = {
                     if (!guild) {
                         return interaction.reply({
                             content: 'No guild found in cache to emit guildCreate for.',
-                            ephemeral: true,
+                            flags: ['Ephemeral'],
                         });
                     }
                     client.emit('guildCreate', guild);
@@ -48,7 +48,7 @@ const command: CommandInterface = {
                     if (!guild) {
                         return interaction.reply({
                             content: 'No guild found in cache to emit guildDelete for.',
-                            ephemeral: true,
+                            flags: ['Ephemeral'],
                         });
                     }
                     client.emit('guildDelete', guild);
@@ -57,19 +57,19 @@ const command: CommandInterface = {
                 default:
                     return interaction.reply({
                         content: `Event "${eventName}" is not supported for manual emit.`,
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
             }
 
             await interaction.reply({
                 content: `✅ Event \`${eventName}\` emitted successfully!`,
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         } catch (error) {
             console.error('Error emitting event:', error);
             await interaction.reply({
                 content: `❌ Failed to emit event \`${eventName}\`.`,
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
     },

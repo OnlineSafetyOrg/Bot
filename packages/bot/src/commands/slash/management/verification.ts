@@ -86,7 +86,7 @@ const command: CommandInterface = {
 
     execute: async (interaction: ChatInputCommandInteraction, client: CoffeeClient) => {
         const { options, guild } = interaction;
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: ['Ephemeral'] });
 
         const subcommand = options.getSubcommand();
         const config = await client.prisma.verificationConfig.findUnique({

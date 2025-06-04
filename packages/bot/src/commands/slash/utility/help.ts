@@ -24,7 +24,7 @@ const command: CommandInterface = {
         .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
 
     execute: async (interaction: ChatInputCommandInteraction, client: CoffeeClient) => {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: ['Ephemeral'] });
 
         const isDev = client.config.developers.includes(interaction.user.id);
         const registered = await client.application!.commands.fetch();
@@ -140,7 +140,7 @@ const command: CommandInterface = {
 
         collector.on('collect', async (select) => {
             if (select.user.id !== interaction.user.id)
-                return select.reply({ content: 'This menu isn’t for you.', ephemeral: true });
+                return select.reply({ content: 'This menu isn’t for you.', flags: ['Ephemeral'] });
 
             const selected = select.values[0];
 

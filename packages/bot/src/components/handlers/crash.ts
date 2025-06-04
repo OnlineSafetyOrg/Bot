@@ -25,16 +25,19 @@ export function loadCrashHandler() {
 
     process.on('uncaughtException', (error) => {
         logger.error({ message: 'Uncaught Exception', error });
+        console.log(error);
         sendErrorToWebhook(error.message || 'Unknown uncaught exception');
     });
 
     process.on('uncaughtExceptionMonitor', (error) => {
         logger.error({ message: 'Uncaught Exception Monitor', error });
+        console.log(error);
         sendErrorToWebhook(error.message || 'Unknown uncaught exception monitor');
     });
 
     process.on('warning', (warning) => {
         logger.warn({ message: 'Process Warning', warning });
+        console.log(warning);
         sendErrorToWebhook(warning.name || 'Process warning');
     });
 }
